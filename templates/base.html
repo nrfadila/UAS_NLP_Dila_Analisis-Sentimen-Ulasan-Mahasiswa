@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sentimen Analisis Mahasiswa{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-icon">SA</div>
+                <div>
+                    <div class="brand-title">Sentimen Analisis</div>
+                    <div class="brand-subtitle">UAS NLP - Naive Bayes</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('dashboard.dashboard') }}" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="{{ url_for('dataset.dataset_page') }}" class="nav-link {% if active_page == 'dataset' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    <span class="nav-text">Dataset</span>
+                </a>
+                <a href="{{ url_for('training.training_page') }}" class="nav-link {% if active_page == 'train' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.023.547l-1.2 1.2a2 2 0 000 2.83l1.2 1.2a2 2 0 002.828 0l1.2-1.2m10.828-4.242l1.2 1.2a2 2 0 010 2.828l-1.2 1.2a2 2 0 01-2.828 0l-1.2-1.2"></path></svg>
+                    <span class="nav-text">Training</span>
+                </a>
+                <a href="{{ url_for('prediction.prediction_page') }}" class="nav-link {% if active_page == 'predict' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-4a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    <span class="nav-text">Prediksi</span>
+                </a>
+                <a href="{{ url_for('evaluation.evaluation_page') }}" class="nav-link {% if active_page == 'evaluation' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <span class="nav-text">Evaluasi</span>
+                </a>
+                <a href="{{ url_for('about.about_page') }}" class="nav-link {% if active_page == 'about' %}active{% endif %}">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="nav-text">Tentang</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                v1.0.0 &bull; Flask &amp; Naive Bayes
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="app-header">
+                <div class="header-left">
+                    <h2>Aplikasi Analisis Sentimen Mahasiswa</h2>
+                </div>
+                <div class="header-right">
+                    <div class="date-time-widget">
+                        <div class="digital-clock" id="digital-clock">00:00:00</div>
+                        <div id="digital-date">Senin, 1 Jan 2026</div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="icon-btn" id="theme-toggle-btn" title="Toggle Mode">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+                        </button>
+                        <div class="icon-btn" title="Notifikasi">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 01-3.46 0"></path></svg>
+                        </div>
+                        <div class="icon-btn" style="background: var(--accent); color: #FFFFFF;" title="Profil">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                {% block content %}{% endblock %}
+            </main>
+
+            <footer class="app-footer">
+                <div class="footer-tech">
+                    <span>Natural Language Processing</span> &bull; 
+                    <span>Naive Bayes</span> &bull; 
+                    <span>Flask</span> &bull; 
+                    <span>Python</span>
+                </div>
+                <div>&copy; 2026 Sentiment Analysis App. Hak Cipta Dilindungi.</div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

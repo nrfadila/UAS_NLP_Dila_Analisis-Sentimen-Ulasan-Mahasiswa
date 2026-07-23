@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Tentang Aplikasi — Sentimen Analisis Mahasiswa{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Tentang Aplikasi</h1>
+        <p class="page-subtitle">Informasi arsitektur, metodologi NLP, dan versi pustaka yang digunakan</p>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="chart-card glass-panel">
+            <h3>Deskripsi Aplikasi</h3>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-color);">
+                Aplikasi ini dikembangkan untuk mengklasifikasikan tanggapan dan ulasan mahasiswa mengenai pelayanan, fasilitas, serta akademik kampus ke dalam tiga kategori sentimen: <strong>Positif</strong>, <strong>Negatif</strong>, dan <strong>Netral</strong>. Menggunakan kombinasi pemrosesan bahasa alami (NLP) Bahasa Indonesia dan algoritma pembobotan statistik.
+            </p>
+        </div>
+
+        <div class="chart-card glass-panel">
+            <h3>Metode Naive Bayes & TF-IDF</h3>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-color); margin-bottom: 1rem;">
+                <strong>Multinomial Naive Bayes</strong> adalah algoritma pembelajaran mesin berbasis Teorema Bayes yang sangat efektif dalam klasifikasi teks. Algoritma ini menghitung probabilitas posterior dari setiap kelas sentimen berdasarkan frekuensi kata.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-color);">
+                <strong>TF-IDF (Term Frequency - Inverse Document Frequency)</strong> digunakan untuk mengubah teks menjadi representasi vektor angka dengan memperhitungkan seberapa penting suatu kata dalam dokumen relatif terhadap keseluruhan dataset.
+            </p>
+        </div>
+
+        <div class="chart-card glass-panel">
+            <h3>Tahapan NLP (Natural Language Processing)</h3>
+            <ul style="padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.8; color: var(--text-color);">
+                <td><strong>1. Lowercasing:</strong> Mengubah seluruh huruf menjadi huruf kecil.</td><br>
+                <td><strong>2. Cleaning:</strong> Menghapus URL, angka, emoji, tanda baca, dan karakter khusus.</td><br>
+                <td><strong>3. Tokenizing:</strong> Memotong kalimat menjadi kata-kata (token).</td><br>
+                <td><strong>4. Stopword Removal:</strong> Menghapus kata umum Bahasa Indonesia yang tidak memiliki bobot sentimen.</td><br>
+                <td><strong>5. Stemming Sastrawi:</strong> Mengubah kata berimbuhan menjadi kata dasar menggunakan library Sastrawi.</td>
+            </ul>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="chart-card glass-panel">
+            <h3>Pustaka & Versi Teknologi</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                {% for lib, ver in versions.items() %}
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.4rem; font-size: 0.9rem;">
+                    <span>{{ lib }}</span>
+                    <strong style="color: var(--accent);">v{{ ver }}</strong>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="chart-card glass-panel">
+            <h3>Struktur Proyek</h3>
+            <pre style="font-size: 0.75rem; line-height: 1.4; color: var(--text-muted); background: var(--bg-card); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto;">
+sentiment-analysis-app/
+├── app.py
+├── requirements.txt
+├── dataset/
+│   ├── mahasiswa.csv
+│   └── history.db
+├── model/
+│   ├── naive_bayes.pkl
+│   └── vectorizer.pkl
+├── static/
+│   ├── css/style.css
+│   ├── js/script.js
+│   └── img/
+├── templates/
+└── src/
+    ├── preprocessing.py
+    ├── training.py
+    ├── prediction.py
+    └── evaluation.py
+            </pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
