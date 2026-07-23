@@ -134,8 +134,3 @@ http://localhost:5000
 - **Recall**: ~95%+
 - **F1-Score**: ~95%+
 - **Confusion Matrix**: Tersimpan secara dinamis di `static/img/confusion_matrix.png`
-
----
-
-## 📝 Hak Cipta & Lisensi
-Pengembangan Proyek UAS Natural Language Processing (NLP) — Implementasi Klasifikasi Sentimen Teks dengan Naive Bayes.
